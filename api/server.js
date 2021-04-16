@@ -1,15 +1,16 @@
 const express = require("express")
 const server = express()
 const db = require("./users/model")
-server.use(express.json()) //< --must include to parse from JSON
+// server.use(express.json()) //< --must include to parse from JSON
 
 
 server.get("/", (req, res) => {
-    res.json({ message: "Lambda 5000 webpt24. Yo, World!" })
+    res.json({ message: `Lambda 5000 ${process.env.COHORT}. Yo, World` })
 })
 
 
 server.get("/api/users", (req, res) => {
+   
     const users = db.find()
    if (users){
         res.json(users)
@@ -37,8 +38,8 @@ server.get("/api/users/:id", (req, res) => {
 server.post("/api/users/", (req, res) => {
     const newUser = db.insert({
        
-        name: req.body.name, 
-        bio: req.body.bio,
+        name: req.body.name,
+        bio: req.body.bio
     })
     if (newUser){ 
         res.status(201).json(newUser);
